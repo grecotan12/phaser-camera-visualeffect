@@ -23,6 +23,22 @@ class GameScene extends Phaser.Scene {
             frameWidth: 32,
             frameHeight: 32
         });
+        this.load.spritesheet('playerOneFall', 'assets/charOneFall.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
+        this.load.spritesheet('playerOneDoubleJump', 'assets/charOneDoubleJump.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
+        this.load.spritesheet('disappear', 'assets/disappear.png', {
+            frameWidth: 96,
+            frameHeight: 96
+        });
+        this.load.spritesheet('health', 'assets/Strawberry.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
     }
 
     create() {
@@ -30,6 +46,15 @@ class GameScene extends Phaser.Scene {
             for (let j = 0; j <= this.scale.width; j+=64) {
                 gameState.tiles.push(this.add.tileSprite(j, i, 64, 64, 'bg'));
             }
+        }
+        this.add.text(this.scale.width- 420, 20, "Health", {
+            fill: "black",
+            fontSize: 24
+        });
+
+        gameState.health = this.add.group();
+        for (let i = 50; i <= 300; i+=50) {
+            gameState.health.create(this.scale.width-i, 32, "health").setScale(2);
         }
         
         const platforms = this.physics.add.staticGroup();
@@ -41,10 +66,12 @@ class GameScene extends Phaser.Scene {
         gameState.player.setCollideWorldBounds(true);
 
         this.physics.add.collider(gameState.player, platforms);
-
+        
         this.createAnimation();
+        for (const each of gameState.health.getChildren()) {
+            each.anims.play("health", true);
+        }
         gameState.player.anims.play("playerOneIdle", true);
-
         gameState.cursors = this.input.keyboard.createCursorKeys();
     }
     
@@ -53,11 +80,17 @@ class GameScene extends Phaser.Scene {
             tile.tilePositionY += 0.5;
         }
         this.manageInput();
-
         if (gameState.player.y === this.scale.height - gameState.player.height) {
             gameState.player.setVelocityY(-600);
             gameState.player.anims.play("playerOneHurt", true);
-        }
+            if (gameState.health.getChildren().length > 1) {
+                gameState.health.getChildren()[0].destroy();
+            }
+            else {
+                this.scene.restart();
+            }
+        } 
+
     }
 
     manageInput() {
@@ -77,6 +110,16 @@ class GameScene extends Phaser.Scene {
         if (gameState.cursors.space.isDown && gameState.player.body.touching.down) {
             gameState.player.setVelocityY(-600);
             gameState.player.anims.play("playerOneJump", true);
+            setTimeout(() => {
+                if (gameState.cursors.space.isDown && !gameState.player.body.touching.down) {
+                    gameState.player.setVelocityY(-800);
+                    gameState.player.anims.stop();
+                    gameState.player.anims.play("playerOneDoubleJump", true);
+                }
+            }, 500)
+        } 
+        if (!gameState.cursors.space.isDown && !gameState.player.body.touching.down && !gameState.isActive) {
+            gameState.player.anims.play("playerOneFall", true);
         }
     }
     createAnimation() {
@@ -96,7 +139,14 @@ class GameScene extends Phaser.Scene {
         });
         this.anims.create({
             key: "playerOneJump",
-            frames: this.anims.generateFrameNames("playerOneJump", {start: 0, end: 1}),
+            frames: this.anims.generateFrameNames("playerOneJump", {start: 0, end: 0}),
+            delay: 0.5,
+            frameRate: 20,
+            repeat: -1,
+        });
+        this.anims.create({
+            key: "playerOneFall",
+            frames: this.anims.generateFrameNames("playerOneFall", {start: 0, end: 0}),
             delay: 0.5,
             frameRate: 20,
             repeat: -1,
@@ -107,6 +157,26 @@ class GameScene extends Phaser.Scene {
             delay: 0.5,
             frameRate: 20,
             repeat: -1,
+        });
+        this.anims.create({
+            key: "playerOneDoubleJump",
+            frames: this.anims.generateFrameNames("playerOneDoubleJump", {start: 0, end: 5}),
+            delay: 0.5,
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "disappear",
+            frames: this.anims.generateFrameNames("disappear", {start: 0, end: 6}),
+            delay: 0.5,
+            frameRate: 5,
+        });
+        this.anims.create({
+            key: "health",
+            frames: this.anims.generateFrameNames("health", {start: 0, end: 16}),
+            delay: 0.5,
+            frameRate: 20,
+            repeat: -1
         });
     }
 }
