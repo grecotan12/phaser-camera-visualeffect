@@ -172,8 +172,12 @@ class GameScene extends Phaser.Scene {
     update() {
         gameState.dust.x = gameState.player.x-25;
         gameState.dust.y = gameState.player.y+20;
-        gameState.shadow.x = gameState.player.x-20;
-        gameState.shadow.y = gameState.player.y+18;
+        if (!gameState.player.flipX) {
+            gameState.shadow.x = gameState.player.x-30;
+        } else {
+            gameState.shadow.x = gameState.player.x+30;
+        }
+        gameState.shadow.y = gameState.player.y+20;
         for (const tile of gameState.tiles) {
             tile.tilePositionY += 0.5;
         }
@@ -208,7 +212,6 @@ class GameScene extends Phaser.Scene {
             gameState.player.anims.play("playerOneRun", true);
             gameState.dust.setAlpha(1);
             gameState.dust.x = gameState.player.x+25;
-            gameState.shadow.x = gameState.player.x+20;
         }
         else {
             gameState.player.setVelocityX(0);
