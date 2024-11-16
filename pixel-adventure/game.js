@@ -1,6 +1,8 @@
 const gameState = {
     tiles: [],
     healthCount: 5,
+    score: 0,
+    isHurt: false,
 };
 
 const config = {
