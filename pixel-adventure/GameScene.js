@@ -59,13 +59,13 @@ class GameScene extends Phaser.Scene {
             frameWidth: 42,
             frameHeight: 42
         });
-        this.load.spritesheet('rockRight', 'assets/rockRight.png', {
-            frameWidth: 42,
-            frameHeight: 42
+        this.load.spritesheet('startCheckPoint', 'assets/startCheckPoint.png', {
+            frameWidth: 64,
+            frameHeight: 40
         });
-        this.load.spritesheet('rockLeft', 'assets/rockLeft.png', {
-            frameWidth: 42,
-            frameHeight: 42
+        this.load.spritesheet('endCheckPoint', 'assets/endCheckPoint.png', {
+            frameWidth: 64,
+            frameHeight: 64
         });
     }
 
@@ -98,17 +98,26 @@ class GameScene extends Phaser.Scene {
         platforms.create(520, this.scale.height-200, 'terrain2').setOrigin(0, 0).setScale(2.5).refreshBody();
         platforms.create(0, this.scale.height-350, 'terrain1').setOrigin(0, 0).setScale(3).refreshBody();
         platforms.create(144, this.scale.height-350, 'terrain1').setOrigin(0, 0).setScale(3).refreshBody();
-        platforms.create(550, this.scale.height-550, 'terrain3').setOrigin(0, 0).setScale(3).refreshBody();
-        platforms.create(680, this.scale.height-550, 'terrain3').setOrigin(0, 0).setScale(3).refreshBody();
+        platforms.create(550, this.scale.height-500, 'terrain3').setOrigin(0, 0).setScale(3).refreshBody();
+        platforms.create(680, this.scale.height-500, 'terrain3').setOrigin(0, 0).setScale(3).refreshBody();
         platforms.create(0, 125, 'terrain3').setOrigin(0, 0).setScale(3).refreshBody();
         platforms.create(144, 125, 'terrain3').setOrigin(0, 0).setScale(3).refreshBody();
+        platforms.create(400, 90, 'terrain2').setOrigin(0, 0).setScale(1.5).refreshBody();
+
+        platforms.create(400, 90, 'terrain2').setOrigin(0, 0).setScale(1.5).refreshBody();
+
+        platforms.create(900, this.scale.height-600, 'terrain3').setOrigin(0, 0).setScale(3).refreshBody();
+        platforms.create(1100, this.scale.height-400, 'terrain3').setOrigin(0, 0).setScale(3).refreshBody();
+        platforms.create(800, this.scale.height-250, 'terrain3').setOrigin(0, 0).setScale(3).refreshBody();
+
+        platforms.create(this.scale.width-144, this.scale.height-58, 'terrain1').setOrigin(0, 0).setScale(3).refreshBody();
 
         gameState.traps = this.physics.add.group();
         gameState.traps.create(130, this.scale.height-370, 'spikes').setScale(2.5);
         gameState.traps.create(170, this.scale.height-370, 'spikes').setScale(2.5);
 
         const arrowX = 675;
-        const arrowY = this.scale.height-570;
+        const arrowY = this.scale.height-520;
         gameState.traps.create(arrowX, arrowY, 'arrow').setScale(2.5);
         const rockX = 50;
         const rockY = 50;
@@ -123,21 +132,35 @@ class GameScene extends Phaser.Scene {
             gameState.reward.create(i, (this.scale.height-350) - (35 * upper), 'orange').setScale(2);
             upper++;
         }
-
+        
+        gameState.reward.create(430, 60, 'orange').setScale(2);
+        gameState.reward.create(180, 100, 'pineapple').setScale(2);
+        gameState.reward.create(240, 100, 'pineapple').setScale(2);
+        
         gameState.reward.create(30, this.scale.height-375, 'pineapple').setScale(2);
         gameState.reward.create(70, this.scale.height-375, 'pineapple').setScale(2);
+        gameState.reward.create(925, this.scale.height-625, 'orange').setScale(2);
+        gameState.reward.create(965, this.scale.height-625, 'orange').setScale(2);
+        gameState.reward.create(1000, this.scale.height-625, 'orange').setScale(2);
+        
+        gameState.reward.create(1125, this.scale.height-425, 'pineapple').setScale(2);
+        gameState.reward.create(1165, this.scale.height-425, 'pineapple').setScale(2);
+        gameState.reward.create(1200, this.scale.height-425, 'pineapple').setScale(2);
 
-
-        gameState.player = this.physics.add.sprite(32, this.scale.height-120, 'playerOneIdle').setScale(2);
+        gameState.reward.create(825, this.scale.height-275, 'orange').setScale(2);
+        gameState.reward.create(865, this.scale.height-275, 'orange').setScale(2);
+        gameState.reward.create(900, this.scale.height-275, 'orange').setScale(2);
+        
+        gameState.player = this.physics.add.sprite(32, this.scale.height-120, 'playerOneIdle').setScale(2).refreshBody();
         gameState.player.setCollideWorldBounds(true);
-
+        
         this.physics.add.collider(gameState.player, platforms);
         
         this.createAnimation();
         for (const each of gameState.health.getChildren()) {
             each.anims.play("health", true);
         }
-
+        
         for (const each of gameState.reward.getChildren()) {
             if (each.texture.key === "pineapple") {
                 each.anims.play("pineapple", true);
@@ -146,7 +169,7 @@ class GameScene extends Phaser.Scene {
                 each.anims.play("orange", true);
             }
         }
-
+        
         for (const each of gameState.traps.getChildren()) {
             if (each.texture.key === 'arrow') {
                 each.anims.play("arrow", true);
@@ -155,12 +178,12 @@ class GameScene extends Phaser.Scene {
                 each.anims.play('rock', true);
             }
         }
-
+        
         this.playTrapTweens();
-
+        
         gameState.player.anims.play("playerOneIdle", true);
         gameState.cursors = this.input.keyboard.createCursorKeys();
-
+        
         this.physics.add.collider(gameState.reward, platforms);
         this.physics.add.collider(gameState.traps, platforms);
         this.physics.add.overlap(gameState.player, gameState.reward, (player, each) => {
@@ -185,9 +208,9 @@ class GameScene extends Phaser.Scene {
                         respawnTrap.anims.play(key, true);
                         this.rockTween(respawnTrap);
                     } else if (key === 'arrow') {
-                            const respawnTrap = gameState.traps.create(arrowX, arrowY, key).setScale(2.5);
-                            respawnTrap.anims.play(key, true);
-                            this.arrowTween(respawnTrap);
+                        const respawnTrap = gameState.traps.create(arrowX, arrowY, key).setScale(2.5);
+                        respawnTrap.anims.play(key, true);
+                        this.arrowTween(respawnTrap);
                     } else {
                         const respawnTrap = gameState.traps.create(x, y, key).setScale(2.5);
                         respawnTrap.anims.play(key, true);
@@ -199,7 +222,16 @@ class GameScene extends Phaser.Scene {
                 this.scene.restart();
             }
         });
+        
+        
+        gameState.startCheckPoint = this.add.sprite(200, this.scale.height-100, "startCheckPoint").setScale(2);
+        gameState.startCheckPoint.anims.play("startCheckPoint");
+        gameState.endCheckPoint = this.physics.add.staticSprite(this.scale.width-64, this.scale.height-105, "endCheckPoint").setScale(1.5);
+        gameState.endCheckPoint.anims.play("endCheckPoint");
 
+        this.physics.add.overlap(gameState.player, gameState.endCheckPoint, () => {
+            this.scene.restart();
+        })
         gameState.dust = this.add.sprite(gameState.player.x, gameState.player.y, "dust").setScale(2).setAlpha(0);
         gameState.shadow = this.add.sprite(gameState.player.x, gameState.player.y, "shadow").setScale(2);
     }
@@ -218,25 +250,25 @@ class GameScene extends Phaser.Scene {
                 targets: child,
                 x: child.x + 200,
                 ease: 'Linear',
-                duration: 800,
+                duration: 1800,
                 repeat: -1,
                 yoyo: true,
             });
         }
     }
-
+    
     arrowTween(child) {
         if (child.texture.key === 'arrow') {
             this.tweens.add({
                 targets: child,
                 y: child.y - 100,
                 ease: 'Linear',
-                duration: 1500,
+                duration: 800,
                 loop: -1
             });
         }
     }
-
+    
     update() {
         gameState.dust.x = gameState.player.x-25;
         gameState.dust.y = gameState.player.y+20;
@@ -387,15 +419,15 @@ class GameScene extends Phaser.Scene {
             repeat: -1
         });
         this.anims.create({
-            key: "rockRight",
-            frames: this.anims.generateFrameNames("rockRight", {start: 0, end: 3}),
+            key: "startCheckPoint",
+            frames: this.anims.generateFrameNames("startCheckPoint", {start: 0, end: 16}),
             delay: 0.5,
             frameRate: 20,
             repeat: -1
         });
         this.anims.create({
-            key: "rockLeft",
-            frames: this.anims.generateFrameNames("rockLeft", {start: 0, end: 3}),
+            key: "endCheckPoint",
+            frames: this.anims.generateFrameNames("endCheckPoint", {start: 0, end: 7}),
             delay: 0.5,
             frameRate: 20,
             repeat: -1
