@@ -4,7 +4,7 @@ class StartGame extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('bg', 'assets/Green.png');
+        this.load.image('bg', 'assets/background/Green.png');
         this.load.image('letterP', 'assets/letters-black/tile015.png');
         this.load.image('letterI', 'assets/letters-black/tile008.png');
         this.load.image('letterX', 'assets/letters-black/tile023.png');
@@ -41,7 +41,10 @@ class StartGame extends Phaser.Scene {
         this.add.image(this.scale.width/2+150, this.scale.height/2, 'letterR').setScale(5);
         this.add.image(this.scale.width/2+200, this.scale.height/2, 'letterE').setScale(5);
 
-        this.add.text(this.scale.width/2+200, this.scale.height/2+100, 'Click to Start');
+        this.add.text(this.scale.width/2-200, this.scale.height/2+100, 'Click to Start', {
+            fill: 'black',
+            fontSize: 36
+        });
         this.input.on('pointerup', () => {
             this.scene.stop();
             gameState.tiles = [];

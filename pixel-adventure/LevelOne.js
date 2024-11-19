@@ -4,7 +4,7 @@ class LevelOne extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('bgOne', 'assets/Yellow.png');
+        this.load.image('bgOne', 'assets/background/Yellow.png');
         this.load.image('terrain1', 'assets/terrain1.png');
         this.load.image('terrain2', 'assets/terrain2.png');
         this.load.image('terrain3', 'assets/terrain3.png');
