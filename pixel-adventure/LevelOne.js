@@ -5,65 +5,65 @@ class LevelOne extends Phaser.Scene {
 
     preload() {
         this.load.image('bgOne', 'assets/background/Yellow.png');
-        this.load.image('terrain1', 'assets/terrain1.png');
-        this.load.image('terrain2', 'assets/terrain2.png');
-        this.load.image('terrain3', 'assets/terrain3.png');
-        this.load.image('spikes', 'assets/spikes.png');
-        this.load.image('dust', 'assets/dust.png');
-        this.load.image('shadow', 'assets/Shadow.png');
-        this.load.spritesheet('playerOneIdle', 'assets/charOneIdle.png', {
+        this.load.image('terrain1', 'assets/platforms/terrain1.png');
+        this.load.image('terrain2', 'assets/platforms/terrain2.png');
+        this.load.image('terrain3', 'assets/platforms/terrain3.png');
+        this.load.image('spikes', 'assets/traps/spikes.png');
+        this.load.image('dust', 'assets/items-effects/dust.png');
+        this.load.image('shadow', 'assets/items-effects/Shadow.png');
+        this.load.spritesheet('playerOneIdle', 'assets/character/charOneIdle.png', {
             frameWidth: 32,
             frameHeight: 32
         });
-        this.load.spritesheet('playerOneRun', 'assets/charOneRun.png', {
+        this.load.spritesheet('playerOneRun', 'assets/character/charOneRun.png', {
             frameWidth: 32,
             frameHeight: 32
         });
-        this.load.spritesheet('playerOneJump', 'assets/charOneJump.png', {
+        this.load.spritesheet('playerOneJump', 'assets/character/charOneJump.png', {
             frameWidth: 32,
             frameHeight: 32
         });
-        this.load.spritesheet('playerOneHurt', 'assets/charOneHurt.png', {
+        this.load.spritesheet('playerOneHurt', 'assets/character/charOneHurt.png', {
             frameWidth: 32,
             frameHeight: 32
         });
-        this.load.spritesheet('playerOneFall', 'assets/charOneFall.png', {
+        this.load.spritesheet('playerOneFall', 'assets/character/charOneFall.png', {
             frameWidth: 32,
             frameHeight: 32
         });
-        this.load.spritesheet('playerOneDoubleJump', 'assets/charOneDoubleJump.png', {
+        this.load.spritesheet('playerOneDoubleJump', 'assets/character/charOneDoubleJump.png', {
             frameWidth: 32,
             frameHeight: 32
         });
-        this.load.spritesheet('disappear', 'assets/disappear.png', {
+        this.load.spritesheet('disappear', 'assets/character/disappear.png', {
             frameWidth: 96,
             frameHeight: 96
         });
-        this.load.spritesheet('health', 'assets/Strawberry.png', {
+        this.load.spritesheet('health', 'assets/rewards/Strawberry.png', {
             frameWidth: 32,
             frameHeight: 32
         });
-        this.load.spritesheet('pineapple', 'assets/Pineapple.png', {
+        this.load.spritesheet('pineapple', 'assets/rewards/Pineapple.png', {
             frameWidth: 32,
             frameHeight: 32
         });
-        this.load.spritesheet('orange', 'assets/Orange.png', {
+        this.load.spritesheet('orange', 'assets/rewards/Orange.png', {
             frameWidth: 32,
             frameHeight: 32
         });
-        this.load.spritesheet('arrow', 'assets/arrow.png', {
+        this.load.spritesheet('arrow', 'assets/traps/arrow.png', {
             frameWidth: 18,
             frameHeight: 18
         });
-        this.load.spritesheet('rock', 'assets/rockIdle.png', {
+        this.load.spritesheet('rock', 'assets/traps/rockIdle.png', {
             frameWidth: 42,
             frameHeight: 42
         });
-        this.load.spritesheet('startCheckPoint', 'assets/startCheckPoint.png', {
+        this.load.spritesheet('startCheckPoint', 'assets/items-effects/startCheckPoint.png', {
             frameWidth: 64,
             frameHeight: 40
         });
-        this.load.spritesheet('endCheckPoint', 'assets/endCheckPoint.png', {
+        this.load.spritesheet('endCheckPoint', 'assets/items-effects/endCheckPoint.png', {
             frameWidth: 64,
             frameHeight: 64
         });
