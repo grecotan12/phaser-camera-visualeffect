@@ -17,6 +17,14 @@ class StartGame extends Phaser.Scene {
         this.load.image('letterT', 'assets/letters-black/tile019.png');
         this.load.image('letterU', 'assets/letters-black/tile020.png');
         this.load.image('letterR', 'assets/letters-black/tile017.png');
+
+        this.load.image('nextButton', 'assets/items-effects/Next.png');
+        this.load.image('previousButton', 'assets/items-effects/Previous.png');
+
+        this.load.spritesheet('charTwoIdle', 'assets/character/charTwoIdle.png', {
+            frameWidth: 32,
+            frameHeight: 32
+        });
     }
 
     create() {
@@ -26,29 +34,31 @@ class StartGame extends Phaser.Scene {
             }
         }
 
-        this.add.image(this.scale.width/2-150, this.scale.height/2-100, 'letterP').setScale(5);
-        this.add.image(this.scale.width/2-100, this.scale.height/2-100, 'letterI').setScale(5);
-        this.add.image(this.scale.width/2-50, this.scale.height/2-100, 'letterX').setScale(5);
-        this.add.image(this.scale.width/2, this.scale.height/2-100, 'letterE').setScale(5);
-        this.add.image(this.scale.width/2+50, this.scale.height/2-100, 'letterL').setScale(5);
-        this.add.image(this.scale.width/2-200, this.scale.height/2, 'letterA').setScale(5);
-        this.add.image(this.scale.width/2-150, this.scale.height/2, 'letterD').setScale(5);
-        this.add.image(this.scale.width/2-100, this.scale.height/2, 'letterV').setScale(5);
-        this.add.image(this.scale.width/2-50, this.scale.height/2, 'letterE').setScale(5);
-        this.add.image(this.scale.width/2, this.scale.height/2, 'letterN').setScale(5);
-        this.add.image(this.scale.width/2+50, this.scale.height/2, 'letterT').setScale(5);
-        this.add.image(this.scale.width/2+100, this.scale.height/2, 'letterU').setScale(5);
-        this.add.image(this.scale.width/2+150, this.scale.height/2, 'letterR').setScale(5);
-        this.add.image(this.scale.width/2+200, this.scale.height/2, 'letterE').setScale(5);
+        this.add.image(this.scale.width/2-150, this.scale.height/2-200, 'letterP').setScale(5);
+        this.add.image(this.scale.width/2-100, this.scale.height/2-200, 'letterI').setScale(5);
+        this.add.image(this.scale.width/2-50, this.scale.height/2-200, 'letterX').setScale(5);
+        this.add.image(this.scale.width/2, this.scale.height/2-200, 'letterE').setScale(5);
+        this.add.image(this.scale.width/2+50, this.scale.height/2-200, 'letterL').setScale(5);
+        this.add.image(this.scale.width/2-200, this.scale.height/2-100, 'letterA').setScale(5);
+        this.add.image(this.scale.width/2-150, this.scale.height/2-100, 'letterD').setScale(5);
+        this.add.image(this.scale.width/2-100, this.scale.height/2-100, 'letterV').setScale(5);
+        this.add.image(this.scale.width/2-50, this.scale.height/2-100, 'letterE').setScale(5);
+        this.add.image(this.scale.width/2, this.scale.height/2-100, 'letterN').setScale(5);
+        this.add.image(this.scale.width/2+50, this.scale.height/2-100, 'letterT').setScale(5);
+        this.add.image(this.scale.width/2+100, this.scale.height/2-100, 'letterU').setScale(5);
+        this.add.image(this.scale.width/2+150, this.scale.height/2-100, 'letterR').setScale(5);
+        this.add.image(this.scale.width/2+200, this.scale.height/2-100, 'letterE').setScale(5);
 
-        this.add.text(this.scale.width/2-200, this.scale.height/2+100, 'Click to Start', {
-            fill: 'black',
-            fontSize: 36
-        });
-        this.input.on('pointerup', () => {
-            this.scene.stop();
-            gameState.tiles = [];
-            this.scene.start("LevelOne");
+        gameState.nextButton = this.add.image(this.scale.width/2+150, this.scale.height/2+100, 'nextButton').setScale(3);
+        gameState.previousButton = this.add.image(this.scale.width/2-150, this.scale.height/2+100, 'previousButton').setScale(3);
+
+        const character = this.physics.add.staticSprite(this.scale.width/2, this.scale.height/2+75, 'charTwoIdle').setScale(3);
+        this.createAnimation();
+        character.anims.play("charTwoIdle");
+
+        gameState.nextButton.setInteractive();
+        gameState.nextButton.on("pointerdown", () => {
+            console.log("test");
         });
     }
 
@@ -56,5 +66,15 @@ class StartGame extends Phaser.Scene {
         for (const tile of gameState.tiles) {
             tile.tilePositionY += 0.5;
         }
+    }
+
+    createAnimation() {
+        this.anims.create({
+            key: "charTwoIdle",
+            frames: this.anims.generateFrameNames("charTwoIdle", {start: 0, end: 10}),
+            delay: 0.5,
+            frameRate: 20,
+            repeat: -1,
+        });
     }
 }

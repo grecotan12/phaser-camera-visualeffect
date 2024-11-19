@@ -3,7 +3,13 @@ const gameState = {
     healthCount: 5,
     score: 0,
     isHurt: false,
-    titleLetters: []
+    titleLetters: [],
+    characters: {
+        1: 'charOneIdle',
+        2: 'charTwoIdle',
+        3: 'charThreeIdle',
+        4: 'charFourIdle'
+    },
 };
 
 const config = {
