@@ -3,6 +3,7 @@ const gameState = {
     healthCount: 5,
     score: 0,
     isHurt: false,
+    titleLetters: []
 };
 
 const config = {
@@ -20,7 +21,7 @@ const config = {
             enableBody: true,
         }
     },
-    scene: [GameScene]
+    scene: [StartGame, LevelOne]
 }
 
 const game = new Phaser.Game(config);

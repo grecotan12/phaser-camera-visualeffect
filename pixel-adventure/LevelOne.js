@@ -1,10 +1,10 @@
-class GameScene extends Phaser.Scene {
+class LevelOne extends Phaser.Scene {
     constructor() {
-        super({key: 'GameScene'})
+        super({key: 'LevelOne'})
     }
 
     preload() {
-        this.load.image('bg', 'assets/Yellow.png');
+        this.load.image('bgOne', 'assets/Yellow.png');
         this.load.image('terrain1', 'assets/terrain1.png');
         this.load.image('terrain2', 'assets/terrain2.png');
         this.load.image('terrain3', 'assets/terrain3.png');
@@ -72,7 +72,7 @@ class GameScene extends Phaser.Scene {
     create() {
         for (let i = 0; i <= this.scale.height; i+=64) {
             for (let j = 0; j <= this.scale.width; j+=64) {
-                gameState.tiles.push(this.add.tileSprite(j, i, 64, 64, 'bg'));
+                gameState.tiles.push(this.add.tileSprite(j, i, 64, 64, 'bgOne'));
             }
         }
         gameState.textScore = this.add.text(10, 20, `Score: ${gameState.score}`, {
