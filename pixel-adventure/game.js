@@ -4,12 +4,15 @@ const gameState = {
     score: 0,
     isHurt: false,
     titleLetters: [],
-    characters: {
-        1: 'charOneIdle',
-        2: 'charTwoIdle',
-        3: 'charThreeIdle',
-        4: 'charFourIdle'
-    },
+    characters: [
+        'charOneIdle',
+        'charTwoIdle',
+        'charThreeIdle',
+        'charFourIdle'
+    ],
+    backgrounds: [
+        'Blue', 'Brown', 'Gray', 'Green', 'Pink', 'Purple', 'Yellow'
+    ]
 };
 
 const config = {
